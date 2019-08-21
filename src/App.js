@@ -1,25 +1,50 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
+import { ApolloProvider } from '@apollo/react-hooks'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { typeDefs, resolvers } from './apollo/resolvers';
+
+import Home from './pages/home';
+import products from './pages/products';
+import product from './pages/product';
+import login from './pages/login';
+import cart from './pages/cart';
+
+const cache = new InMemoryCache();
+const link = new HttpLink({
+  uri: 'http://localhost:4000/',
+  headers: {
+    authorization: localStorage.getItem('token'),
+  }
+})
+
+cache.writeData({
+  data: {
+    isLoggedIn: !!localStorage.getItem('token')
+  }
+})
+
+const client = new ApolloClient({
+  cache,
+  link,
+  typeDefs,
+  resolvers
+});
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <ApolloProvider client={client} >
+        <Route path="/" exact component={Home} />
+        <Route path="/products" component={products} />
+        <Route path="/product/:id" component={product} />
+        <Route path="/login" component={login} />
+        <Route path="/cart" component={cart} />
+      </ApolloProvider>
+    </Router>
   );
 }
 
