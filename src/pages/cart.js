@@ -78,7 +78,7 @@ const Cart = () => {
 	return (
 		<PageWrapper>
 			<h1>Cart</h1>
-			<div style={{ width: '80%' }}>
+			<div style={{ width: '70%' }}>
 				{data.getCart && (
 					<CartDetail items={data.getCart.items} removeCart={removeCart} updateQuantity={updateQuantity} />
 				)}
