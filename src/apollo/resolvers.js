@@ -35,7 +35,6 @@ export const resolvers = {
       } catch (e) {
         console.log(e);
       }
-      // console.log(getCart);
       const { items } = getCart.data.getCart;
       for (var i = 0; i < items.length; i++) {
         // console.log(items[i]);
