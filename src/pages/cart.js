@@ -2,8 +2,9 @@ import React from 'react';
 import withLayout from './baseLayout';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { PageWrapper } from '../components/styledHtml';
+import { PageWrapper, Button } from '../components/styledHtml';
 import CartDetail from '../components/cartDetail';
+import { withRouter } from 'react-router-dom';
 
 export const CART_DATA = gql`
 	fragment CartTile on Cart {
@@ -52,7 +53,7 @@ const UPDATE_CART_QUANT = gql`
 	}
 `;
 
-const Cart = () => {
+const Cart = ({ history }) => {
 	const { data, loading, error } = useQuery(GET_CART_ITEMS);
 	console.log(data);
 	const [removeCart] = useMutation(REMOVE_CART_ITEMS, {
@@ -83,9 +84,16 @@ const Cart = () => {
 					<CartDetail items={data.getCart.items} removeCart={removeCart} updateQuantity={updateQuantity} />
 				)}
 				<div style={{ float: 'right' }}>Total: ₹{data.getCart.cartTotal}</div>
+				<Button
+					onClick={() => {
+						history.push('/checkout/address');
+					}}
+				>
+					Checkout
+				</Button>
 			</div>
 		</PageWrapper>
 	);
 };
 
-export default withLayout(Cart);
+export default withLayout(withRouter(Cart));
