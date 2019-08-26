@@ -52,17 +52,17 @@ export const CreateAddressMutation = () =>
 			});
 			const address = [...addressArray.address, addAddress];
 
-			cache.writeQuery({
+			await cache.writeQuery({
 				query: GET_ADDRESSES,
 				data: { address }
 			});
 
-			cache.writeQuery({
+			await cache.writeQuery({
 				query: GET_DELIVERY_ADDRESS,
-				data: { selectedAddress: address.id }
+				data: { selectedAddress: addAddress.id }
 			});
 		},
-		refetchQueries: () => [{ query: GET_ADDRESSES }]
+		refetchQueries: () => [{ query: GET_ADDRESSES }, { query: GET_DELIVERY_ADDRESS }]
 	});
 
 export const SetDeliveryAddressMutation = () =>

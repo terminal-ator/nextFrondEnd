@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, LoginInput } from './styledHtml';
 import styled from 'styled-components';
+import useForceUpdate from 'use-force-update';
 
 export const PlainUl = styled.ul`
 	list-style: none;
@@ -20,7 +21,7 @@ const AddressCard = ({ address, selected, select }) => {
 		<Card maxHeight={'400px'}>
 			<input
 				onChange={e => {
-					if (e.target.checked) select(address.id);
+					if (e.target.checked) select({ variables: { id: address.id } });
 				}}
 				type="checkbox"
 				checked={selected}
@@ -61,6 +62,7 @@ const AddAddressCard = ({ addAddress }) => {
 	useEffect(() => {
 		console.log(`The name is : ${name}`);
 	}, [name]);
+	const forceUpdate = useForceUpdate();
 
 	return (
 		<Card maxHeight={'700px'}>

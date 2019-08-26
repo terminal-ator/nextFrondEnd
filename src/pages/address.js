@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { PageWrapper, Button } from '../components/styledHtml';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import AllAddress from '../components/addressCard';
 import styled from 'styled-components';
 import {
 	CREATE_ADDRESS,
 	GET_ADDRESSES,
 	CreateAddressMutation,
-	SetDeliveryAddressMutation
+	SetDeliveryAddressMutation,
+	GET_DELIVERY_ADDRESS
 } from '../apollo/gql/address';
 
 const HeaderRow = styled.div`
@@ -23,9 +24,13 @@ const Address = () => {
 
 	const [addAddress] = CreateAddressMutation();
 
+	const deliveryData = useQuery(GET_DELIVERY_ADDRESS);
+	const selected = deliveryData.data.selectedAddress;
+	console.log('Logging selected', selected);
+
 	const [setDeliveryAddress] = SetDeliveryAddressMutation();
 
-	const [selected, setSelected] = useState('');
+	const [_, setSelected] = useState('');
 
 	if (loading) return <div>Loading....</div>;
 
@@ -54,7 +59,7 @@ const Address = () => {
 			{data.address && (
 				<AllAddress
 					selected={selected}
-					setSelected={setSelected}
+					setSelected={setDeliveryAddress}
 					addAddress={addAddress}
 					addresses={data.address}
 				/>
