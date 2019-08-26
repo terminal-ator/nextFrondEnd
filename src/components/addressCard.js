@@ -4,8 +4,15 @@ import styled from 'styled-components';
 
 export const PlainUl = styled.ul`
 	list-style: none;
-	color: #757d7b;
+	color: #575151;
 	padding-left: 0px;
+`;
+
+const AddressInput = styled.input`
+	outline: none;
+	border: none;
+	color: black;
+	font-size: 14px;
 `;
 
 const AddressCard = ({ address, selected, select }) => {
@@ -33,7 +40,7 @@ const AddressCard = ({ address, selected, select }) => {
 
 export const GenInput = ({ state, setState, ...props }) => {
 	return (
-		<LoginInput
+		<AddressInput
 			value={state}
 			onChange={e => {
 				setState(e.target.value);
@@ -57,9 +64,11 @@ const AddAddressCard = ({ addAddress }) => {
 
 	return (
 		<Card maxHeight={'700px'}>
-			<h4>Add a new address</h4>
+			<input type="checkbox" checked={false} disabled />
 			<PlainUl>
-				<GenInput state={name} setState={setName} placeholder="Name" padding={'5px'} />
+				<GenInput style={{ fontSize: 18 }} state={name} setState={setName} placeholder="Name" padding={'5px'} />
+				<br />
+				<br />
 				<GenInput state={line1} setState={setLine1} placeholder="Line 1" padding={'5px'} />
 				<GenInput state={line2} setState={setLine2} placeholder="Line 2" padding={'5px'} />
 				<GenInput state={district} setState={setDistrict} placeholder="District" padding={'5px'} />

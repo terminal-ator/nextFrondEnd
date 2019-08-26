@@ -56,6 +56,11 @@ export const CreateAddressMutation = () =>
 				query: GET_ADDRESSES,
 				data: { address }
 			});
+
+			cache.writeQuery({
+				query: GET_DELIVERY_ADDRESS,
+				data: { selectedAddress: address.id }
+			});
 		},
 		refetchQueries: () => [{ query: GET_ADDRESSES }]
 	});

@@ -47,7 +47,6 @@ const Address = () => {
 						});
 					}}
 					disabled={selected === ''}
-					bgColor="#34deeb"
 				>
 					Continue
 				</Button>
