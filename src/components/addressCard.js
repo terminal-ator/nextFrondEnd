@@ -16,16 +16,19 @@ const AddressInput = styled.input`
 	font-size: 14px;
 `;
 
-const AddressCard = ({ address, selected, select }) => {
+export const AddressCard = ({ address, selected, select }) => {
 	return (
 		<Card maxHeight={'400px'}>
-			<input
-				onChange={e => {
-					if (e.target.checked) select({ variables: { id: address.id } });
-				}}
-				type="checkbox"
-				checked={selected}
-			/>
+			{select && (
+				<input
+					onChange={e => {
+						if (e.target.checked && select) select({ variables: { id: address.id } });
+					}}
+					type="checkbox"
+					checked={selected}
+				/>
+			)}
+
 			<h4>{address.name}</h4>
 			<PlainUl>
 				<li>{address.line1}</li>
@@ -59,9 +62,6 @@ const AddAddressCard = ({ addAddress }) => {
 	const [state, setState] = useState('');
 	const [pincode, setPincode] = useState('');
 
-	useEffect(() => {
-		console.log(`The name is : ${name}`);
-	}, [name]);
 	const forceUpdate = useForceUpdate();
 
 	return (
@@ -91,6 +91,7 @@ const AddAddressCard = ({ addAddress }) => {
 							}
 						}
 					});
+					forceUpdate();
 				}}
 			>
 				Add Address

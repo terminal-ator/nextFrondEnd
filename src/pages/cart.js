@@ -55,7 +55,7 @@ const UPDATE_CART_QUANT = gql`
 
 const Cart = ({ history }) => {
 	const { data, loading, error } = useQuery(GET_CART_ITEMS);
-	console.log(data);
+	// console.log(data);
 	const [removeCart] = useMutation(REMOVE_CART_ITEMS, {
 		update: (cache, { data: { removeItem } }) => {
 			cache.writeQuery({

@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { GET_DELIVERY_ADDRESS } from './gql/address';
+import { GET_DELIVERY_ADDRESS, GET_ADDRESSES } from './gql/address';
 
 export const GET_CART_ITEMS = gql`
 	query getCart {
@@ -18,6 +18,7 @@ export const typeDefs = gql`
 	extend type Query {
 		isLoggedIn: Boolean!
 		selectedAddress: ID!
+		getFullAddress(id: ID!): Address!
 	}
 
 	extend type Variant {
@@ -34,6 +35,19 @@ export const typeDefs = gql`
 `;
 
 export const resolvers = {
+	Query: {
+		getFullAddress: (_, { id }, { cache }) => {
+			console.log(`Resolving getFullAddress with ID: ${id}`);
+			try {
+				const data = cache.readQuery({ query: GET_ADDRESSES });
+				const { address } = data;
+				console.log('Fetching objects from cache:', address.find(address => address.id === id));
+				return address.find(address => address.id === id);
+			} catch (e) {
+				console.error(e);
+			}
+		}
+	},
 	Variant: {
 		isInCart: async (variant, _, { cache, client }) => {
 			var getCart = null;
@@ -51,18 +65,16 @@ export const resolvers = {
 		}
 	},
 	Cart: {
-		cartTotal: async (cart, _, { cache }) => {
+		cartTotal: async (cart, _, {}) => {
 			const { items } = cart;
-			let cartTotal = 0;
-			for (var i = 0; i < items.length; i++) {
-				cartTotal = cartTotal + items[i].variant.price * items[i].quantity;
-			}
+			const cartTotal = items.reduce((cartTotal, item) => cartTotal + item.variant.price * item.quantity, 0);
 			return cartTotal;
 		}
 	},
 	Mutation: {
 		setAddress: (_, { id }, { cache }) => {
-			console.log('Setting address for id: ', id);
+			// const {address }  =cache.readQuery({ query: GET_ADDRESSES })
+			// console.log('Setting address for id: ', id);
 			cache.writeQuery({
 				query: GET_DELIVERY_ADDRESS,
 				data: { selectedAddress: id }

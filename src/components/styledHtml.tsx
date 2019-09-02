@@ -1,5 +1,6 @@
-import styled from 'styled-components';
+import styled, {CSSObject} from 'styled-components';
 import { Link } from 'react-router-dom';
+import { ReactNode } from 'react';
 
 export const InlineLi = styled.li`
 	display: inline;
@@ -15,19 +16,27 @@ export const SimpleA = styled.a`
 	text-decoration: none;
 	color: blue;
 `;
-export const Card = styled.div`
+
+interface CardProps{
+	children: ReactNode;
+	maxHeight?: string;
+	maxWidth?: string;
+	width?: string;
+	
+}
+export const Card = styled.div<CardProps>`
 	margin-left: 10px;
 	padding: 10px;
 	border-radius: 1px;
 	font-family: 'Arial';
 	max-width: ${props => props.maxWidth || '300px'};
-	width: ${props => props.width || '200px'};
-	max-height: ${props => props.maxHeight || '200px'};
+	width: ${props => props.width || '200px' };
+	max-height: ${props => props.maxHeight || '300px'};
 	border: 1px solid #000;
 	margin-top: 5px;
 `;
 
-export const HoverCard = styled.div`
+export const HoverCard = styled.div<CardProps>`
 	margin-left: 10px;
 	padding: 10px;
 	box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.06);
@@ -39,10 +48,19 @@ export const HoverCard = styled.div`
 	border: 1px solid #f2f3f5;
 `;
 
-export const Button = styled.button`
+interface ButtonProps  {
+	txtColor?: string;
+	bgColor?: string;
+	size?: string;
+	width?: string;
+
+}
+
+
+export const Button = styled.button<ButtonProps>`
 	margin-top: 10px;
 	padding: 10px;
-	color: ${props => props.txtColot || 'white'};
+	color: ${props => props.txtColor || 'white'};
 	background-color: ${props => props.bgColor || '#169EF8'};
 	border: none;
 	border-radius: 4px;
@@ -73,7 +91,7 @@ export const LoginInput = styled.input`
 	border: 1px solid #169ef8;
 	background-color: white;
 	box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.06);
-	padding: ${props => props.padding || '10px'};
+	padding: 10px;
 	height: 20px;
 	font-size: 14px;
 	:focus {

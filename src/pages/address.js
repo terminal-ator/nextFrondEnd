@@ -19,23 +19,21 @@ const HeaderRow = styled.div`
 	justify-content: space-between;
 `;
 
-const Address = () => {
+const Address = ({ history }) => {
 	const { data, loading, error } = useQuery(GET_ADDRESSES);
 
 	const [addAddress] = CreateAddressMutation();
 
 	const deliveryData = useQuery(GET_DELIVERY_ADDRESS);
 	const selected = deliveryData.data.selectedAddress;
-	console.log('Logging selected', selected);
+	// console.log('Logging selected', selected);
 
 	const [setDeliveryAddress] = SetDeliveryAddressMutation();
-
-	const [_, setSelected] = useState('');
 
 	if (loading) return <div>Loading....</div>;
 
 	if (error) {
-		console.log(error);
+		// console.log(error);
 		return <div>Error</div>;
 	}
 
@@ -45,11 +43,7 @@ const Address = () => {
 				<h1>Choose Address</h1>
 				<Button
 					onClick={() => {
-						setDeliveryAddress({
-							variables: {
-								id: selected
-							}
-						});
+						history.push('/checkout/summary');
 					}}
 					disabled={selected === ''}
 				>

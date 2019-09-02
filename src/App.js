@@ -12,6 +12,8 @@ import product from './pages/product';
 import login from './pages/login';
 import cart from './pages/cart';
 import address from './pages/address';
+import Summary from './pages/summary';
+import orders from './pages/orders';
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
@@ -45,6 +47,8 @@ function App() {
 				<Route path="/login" component={login} />
 				<Route path="/cart" component={cart} />
 				<Route path="/checkout/address" component={address} />
+				<Route path="/checkout/summary" component={Summary} />
+				<Route path="/orders" component={orders} />
 			</ApolloProvider>
 		</Router>
 	);

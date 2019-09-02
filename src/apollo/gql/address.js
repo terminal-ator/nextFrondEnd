@@ -44,6 +44,15 @@ export const SET_DELIVERY_ADDRESS = gql`
 	}
 `;
 
+export const GET_FULL_DEL_ADDRESS = gql`
+	query getFullDelivery($id: ID!) {
+		getFullAddress(id: $id) @client {
+			...addressFrag
+		}
+	}
+	${ADDRESS_FRAGMENT}
+`;
+
 export const CreateAddressMutation = () =>
 	useMutation(CREATE_ADDRESS, {
 		update: async (cache, { data: { addAddress } }) => {

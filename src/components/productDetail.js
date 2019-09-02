@@ -37,7 +37,7 @@ export const QInput = styled.input`
 
 const VariantCard = ({ variant, pid, addToCart }) => {
   const [quant, setQuant] = useState(1);
-  console.log(variant.isInCart)
+  // console.log(variant.isInCart)
   return (
     <Card key={variant.id}>
       <h3>{variant.name}</h3>
